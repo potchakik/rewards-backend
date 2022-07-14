@@ -1,6 +1,6 @@
-//const rewardPoints = require("./rewards.mongo");
+const audio = require("./audio.mongo");
 
-async function getAllRewards() {
+async function getAudioCalculatedPoints() {
   return await rewardPoints.find({}, { _id: 0, __V: 0 });
 }
 
@@ -9,6 +9,6 @@ async function addCalculatedPoints(points) {
 }
 
 module.exports = {
-  getAllRewards,
+  getAudioCalculatedPoints,
   addCalculatedPoints,
 };

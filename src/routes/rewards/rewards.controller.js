@@ -1,14 +1,22 @@
-const { addCalculatedPoints } = require("../../models/rewards.model");
-const { rewards } = require("../../models/rewards.mongo");
+//const {
+//  addCalculatedPoints,
+//  getAllRewards,
+//} = require("../../models/audio/audio.model");
+const AudioPoints = require("../../models/audio/audio.mongo");
+const VideoPoints = require("../../models/video/video.mongo");
 
 async function httpGetAllArticlePoints(req, res) {
   return res.send("Article Points");
 }
-async function httpGetAllVideoPoints(req, res) {
-  return res.send("Video Points");
-}
+async function httpGetAllVideoPoints(req, res) {}
+
 async function httpGetAllAudioPoints(req, res) {
-  return res.send("Audio Points");
+  AudioPoints.find((err, audio) => {
+    if (err) {
+      res.send(err);
+    }
+    res.json(audio);
+  });
 }
 
 async function httpPostCalcualteArticlePoints(req, res) {
@@ -33,16 +41,29 @@ async function httpPostCalcualteArticlePoints(req, res) {
   return res.status(201).json(articleTime);
 }
 
-async function httpPostCalculateAudioPoints(req, res) {
-  const videoTime = req.body;
-  console.log(videoTime);
-  return res.status(201).json(videoTime);
+async function httpPostCalculateVideoPoints(req, res) {
+  const videoTime = new VideoPoints(req.body);
+  videoTime
+    .save()
+    .then((data) => {
+      console.log("audio", data);
+      res.send("item saved to database");
+    })
+    .catch((err) => console.log(err));
 }
 
-async function httpPostCalculateVideoPoints(req, res) {
-  const audioTime = req.body;
-  console.log(audioTime);
-  return res.status(201).json(audioTime);
+async function httpPostCalculateAudioPoints(req, res) {
+  const audioTime = new AudioPoints(req.body);
+
+  audioTime
+    .save()
+    .then((data) => {
+      console.log("audio", data);
+      res.send("item saved to database");
+    })
+    .catch((err) => console.log(err));
+
+  //  return res.status(201).json(audioTime);
 }
 
 module.exports = {
