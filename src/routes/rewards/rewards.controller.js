@@ -36,11 +36,13 @@ async function httpPostCalcualteArticlePoints(req, res) {
 async function httpPostCalculateAudioPoints(req, res) {
   const videoTime = req.body;
   console.log(videoTime);
+  return res.status(201).json(videoTime);
 }
 
 async function httpPostCalculateVideoPoints(req, res) {
   const audioTime = req.body;
   console.log(audioTime);
+  return res.status(201).json(audioTime);
 }
 
 module.exports = {
