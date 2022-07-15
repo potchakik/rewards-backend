@@ -10,7 +10,14 @@ async function httpGetAllArticlePoints(req, res) {
     res.json(data);
   });
 }
-async function httpGetAllVideoPoints(req, res) {}
+async function httpGetAllVideoPoints(req, res) {
+  VideoPoints.find((err, data) => {
+    if (err) {
+      res.send(err);
+    }
+    res.json(data);
+  });
+}
 
 async function httpGetAllAudioPoints(req, res) {
   AudioPoints.find((err, data) => {
