@@ -10,6 +10,7 @@ async function httpGetAllArticlePoints(req, res) {
     res.json(data);
   });
 }
+
 async function httpGetAllVideoPoints(req, res) {
   VideoPoints.find((err, data) => {
     if (err) {
@@ -29,22 +30,26 @@ async function httpGetAllAudioPoints(req, res) {
 }
 
 async function httpPostCalcualteArticlePoints(req, res) {
-  const articleTime = req.body;
-  console.log(articleTime);
-  let points = Math.floor(articleTime.time / 60);
+  const articleData = req.body;
 
-  let data = {
-    type: articleTime.type,
-    points: points,
-  };
+  const userTimeArr = [];
 
-  const result = new ArticlePoints(data);
-  result
-    .save()
-    .then((data) => {
-      res.send("item saved to database");
-    })
-    .catch((err) => console.log(err));
+  userTimeArr.push(articleData.time);
+
+  try {
+    await ArticlePoints.findOneAndUpdate(
+      { userId: articleData.userId },
+      { time: userTimeArr[0] },
+      { upsert: true }
+    );
+
+    res
+      .status(201)
+      .send({ message: "Data successfully saved to the database" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Something went wrong." });
+  }
 }
 
 async function httpPostCalculateVideoPoints(req, res) {

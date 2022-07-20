@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const articleSchema = new mongoose.Schema({
+  userId: {
+    type: Number,
+    required: true,
+  },
   type: {
     type: String,
     required: true,
   },
-  points: {
+  time: {
     type: Number,
     required: true,
   },
