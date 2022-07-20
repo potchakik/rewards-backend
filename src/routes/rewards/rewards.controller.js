@@ -39,7 +39,7 @@ async function httpPostCalcualteArticlePoints(req, res) {
   try {
     await ArticlePoints.findOneAndUpdate(
       { userId: articleData.userId },
-      { time: userTimeArr[0] },
+      { time: articleData.time, type: articleData.type },
       { upsert: true }
     );
 
